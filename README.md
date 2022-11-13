@@ -1,9 +1,16 @@
-# Fabric Example Mod
+# TMC Utils
 
-## Setup
+A collection of utilities for technical Minecraft. Maybe not only for it.
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
+## Features
+- Sync WorldEdit region to current Litematica selection.
+- Render current Litematica selection.
 
-## License
+## Commands
+- `/isorender selection`
+- `/wesync`
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+## Dependencies
+- [MaliLib](https://www.curseforge.com/minecraft/mc-mods/malilib)
+- [Litematica](https://www.curseforge.com/minecraft/mc-mods/litematica)
+- [Isometric Renders](https://modrinth.com/mod/isometric-renders) (Optional)
