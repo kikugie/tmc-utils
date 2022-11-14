@@ -2,7 +2,6 @@ package me.kikugie.tmcutils.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
-import fi.dy.masa.litematica.data.DataManager;
 import me.kikugie.tmcutils.features.WorldEditSync;
 import me.kikugie.tmcutils.networking.WorldEditNetworkHandler;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
@@ -20,11 +19,11 @@ public class WorldEditSyncCommand {
     }
 
     private static int syncWorldEditToLitematica(CommandContext<FabricClientCommandSource> context) {
-        var selection = DataManager.getSelectionManager().getCurrentSelection();
-        if (!WorldEditSync.isLitematicaSelectionValid(selection)) {
+        var box = WorldEditSync.getActiveSelection();
+        if (box == null) {
+            context.getSource().sendError(Text.of("Invalid selection!"));
             return 0;
         }
-        var box = selection.getSelectedSubRegionBox();
         WorldEditSync.updateRegion(box);
         context.getSource().sendFeedback(Text.of("WorldEdit synced!"));
         return 0;

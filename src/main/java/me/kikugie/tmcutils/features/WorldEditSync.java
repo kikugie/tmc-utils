@@ -1,7 +1,6 @@
 package me.kikugie.tmcutils.features;
 
 import fi.dy.masa.litematica.data.DataManager;
-import fi.dy.masa.litematica.selection.AreaSelection;
 import me.kikugie.tmcutils.TMCUtilsMod;
 import me.kikugie.tmcutils.config.Configs;
 import me.kikugie.tmcutils.networking.WorldEditNetworkHandler;
@@ -11,6 +10,8 @@ import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.util.math.Box;
+
+import javax.annotation.Nullable;
 
 public class WorldEditSync {
     private static Box lastBox = null;
@@ -29,15 +30,17 @@ public class WorldEditSync {
                 box.getPos2().getZ()));
     }
 
-    public static boolean isLitematicaSelectionValid(AreaSelection selection) {
+    @Nullable
+    public static fi.dy.masa.litematica.selection.Box getActiveSelection() {
+        var selection = DataManager.getSelectionManager().getCurrentSelection();
         if (selection == null) {
-            return false;
+            return null;
         }
         var box = selection.getSelectedSubRegionBox();
-        if (box == null) {
-            return false;
+        if (box == null || box.getPos1() == null || box.getPos2() == null) {
+            return null;
         }
-        return box.getPos1() != null && box.getPos2() != null;
+        return box;
     }
 
     public static void onJoinGame(ClientPlayNetworkHandler ignoredHandler, PacketSender ignoredSender, MinecraftClient ignoredClient) {
@@ -49,16 +52,15 @@ public class WorldEditSync {
         WorldEditNetworkHandler.registerReceiver();
     }
 
-    public static void syncSelection() {
+    private static void syncSelection() {
         // TODO: Don't sync if selection is not cuboid
         if (resetCounter > 0) {
             resetCounter--;
         }
-        var selection = DataManager.getSelectionManager().getCurrentSelection();
-        if (!isLitematicaSelectionValid(selection)) {
+        var box = getActiveSelection();
+        if (box == null) {
             return;
         }
-        var box = selection.getSelectedSubRegionBox();
         var mathBox = new Box(box.getPos1(), box.getPos2());
 
         if (!mathBox.equals(lastBox)) {
