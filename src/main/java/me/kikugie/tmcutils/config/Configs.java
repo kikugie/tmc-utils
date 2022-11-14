@@ -1,10 +1,11 @@
 package me.kikugie.tmcutils.config;
 
 import com.google.common.collect.ImmutableList;
-import fi.dy.masa.malilib.config.IConfigValue;
+import fi.dy.masa.malilib.config.IConfigBase;
 import fi.dy.masa.malilib.config.options.ConfigBooleanHotkeyed;
 import fi.dy.masa.malilib.config.options.ConfigHotkey;
 import fi.dy.masa.malilib.config.options.ConfigInteger;
+import fi.dy.masa.malilib.config.options.ConfigOptionList;
 import fi.dy.masa.malilib.hotkeys.IHotkey;
 import fi.dy.masa.malilib.hotkeys.IKeybind;
 import me.kikugie.tmcutils.TMCUtilsMod;
@@ -16,19 +17,19 @@ public class Configs {
     public static FeatureConfigs FEATURE_CONFIGS = new FeatureConfigs();
 
     public static class BaseConfigs {
-        public final ImmutableList<IConfigValue> OPTIONS;
+        public final ImmutableList<IConfigBase> OPTIONS;
 
-        public BaseConfigs(ImmutableList<IConfigValue> options) {
+        public BaseConfigs(ImmutableList<IConfigBase> options) {
             this.OPTIONS = options;
         }
 
-        public ImmutableList<IConfigValue> get() {
+        public ImmutableList<IConfigBase> get() {
             return OPTIONS;
         }
 
         public ImmutableList<IHotkey> getHotkeys() {
             List<IHotkey> list = new ArrayList<>();
-            for (IConfigValue configValue : this.OPTIONS) {
+            for (IConfigBase configValue : this.OPTIONS) {
                 if (configValue instanceof IHotkey) {
                     list.add(((IHotkey) configValue));
                 }
@@ -38,7 +39,7 @@ public class Configs {
 
         public ImmutableList<IKeybind> getKeybinds() {
             List<IKeybind> list = new ArrayList<>();
-            for (IConfigValue configValue : this.OPTIONS) {
+            for (IConfigBase configValue : this.OPTIONS) {
                 if (configValue instanceof IHotkey) {
                     list.add(((IHotkey) configValue).getKeybind());
                 }
@@ -51,14 +52,17 @@ public class Configs {
         public static final ConfigHotkey ISORENDER_SELECTION = new ConfigHotkey("isorenderSelection", "I", "Render current Litematica selection");
         public static final ConfigBooleanHotkeyed AUTO_WE_SYNC = new ConfigBooleanHotkeyed("autoWeSync", false, "", "Synchronises WorldEdit selection n ticks after configured value");
         public static final ConfigInteger AUTO_WE_SYNC_TICKS = new ConfigInteger("autoWeSyncTicks", 20, 1, 1000, false, "Ticks to wait before synchronising WorldEdit selection");
+        public static final ConfigHotkey GIVE_FULL_BOX = new ConfigHotkey("giveFullBox", "G", "Gives a full box of the item in your hand");
+        public static final ConfigOptionList BOX_COLOR = new ConfigOptionList("boxColor", DyeColorOption.WHITE, "Color of the box");
 
         public FeatureConfigs() {
             super(getOptions());
         }
 
-        private static ImmutableList<IConfigValue> getOptions() {
-            // TODO: Somehow disable options instead of removing them
-            List<IConfigValue> listInProcess = new ArrayList<>(List.of(AUTO_WE_SYNC, AUTO_WE_SYNC_TICKS));
+        private static ImmutableList<IConfigBase> getOptions() {
+            List<IConfigBase> listInProcess = new ArrayList<>(List.of(AUTO_WE_SYNC, AUTO_WE_SYNC_TICKS, GIVE_FULL_BOX, BOX_COLOR));
+
+            // TODO: Disable options instead of removing them
             if (TMCUtilsMod.isIsoRenderInstalled()) {
                 listInProcess.add(ISORENDER_SELECTION);
             }
