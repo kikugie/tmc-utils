@@ -29,7 +29,7 @@ public class TMCUtilsMod implements ModInitializer {
         ClientCommandRegistrationCallback.EVENT.register(IsorenderSelectionCommand::register);
         ClientCommandRegistrationCallback.EVENT.register(WorldEditSyncCommand::register);
 
-        ClientPlayConnectionEvents.JOIN.register(WorldEditSync::onJoinGame);
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> WorldEditSync.onJoinGame());
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> ResponseMuffler.clear());
     }
 }
