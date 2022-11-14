@@ -7,25 +7,29 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
+
+import javax.annotation.Nullable;
 
 public class GiveFullBox {
     public static void giveBox() {
         var player = MinecraftClient.getInstance().player;
         if (!player.isCreative()) {
+            player.sendMessage(Text.of("§cNot in creative mode!"), true);
             return;
         }
-
         var item = player.getInventory().getMainHandStack();
-        if (item == ItemStack.EMPTY || item.getName().getString().contains("shulker_box")) {
+        if (item == ItemStack.EMPTY || item.getTranslationKey().contains("shulker_box")) {
+            player.sendMessage(Text.of("§cInvalid item!"), true);
             return;
         }
-        var box = composeBox(item.getItem());
+        var box = composeBox(item.getItem(), DyeColor.byName(Configs.FeatureConfigs.BOX_COLOR.getStringValue(), null));
         MinecraftClient.getInstance().interactionManager.clickCreativeStack(box, 36 + player.getInventory().selectedSlot);
     }
 
-    private static ItemStack composeBox(Item item) {
-        var box = ShulkerBoxBlock.getItemStack(DyeColor.byName(Configs.FeatureConfigs.BOX_COLOR.getStringValue(), null));
+    public static ItemStack composeBox(Item item, @Nullable DyeColor color) {
+        var box = ShulkerBoxBlock.getItemStack(color);
 
         // Setup item
         var itemCompound = new NbtCompound();
