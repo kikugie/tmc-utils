@@ -3,16 +3,10 @@ package me.kikugie.tmcutils.features;
 import fi.dy.masa.litematica.data.DataManager;
 import me.kikugie.tmcutils.TMCUtilsMod;
 import me.kikugie.tmcutils.config.Configs;
-import me.kikugie.tmcutils.event.ClientPermissionsEvent;
 import me.kikugie.tmcutils.networking.WorldEditNetworkHandler;
 import me.kikugie.tmcutils.util.ResponseMuffler;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.networking.v1.C2SPlayChannelEvents;
-import net.fabricmc.fabric.api.client.networking.v1.ClientLoginConnectionEvents;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.math.Box;
 
@@ -47,7 +41,7 @@ public class WorldEditSync {
         }
     }
 
-    private static void turnOffPerf() {
+    public static void turnOffPerf() {
         if (perfOff) {
             return;
         }
@@ -67,10 +61,6 @@ public class WorldEditSync {
         ClientTickEvents.START_WORLD_TICK.register(tick -> {
             if (Configs.FeatureConfigs.AUTO_WE_SYNC.getBooleanValue() && player.hasPermissionLevel(2)) {
                 WorldEditSync.syncSelection();
-            }
-            // TODO: Don't loop this, make world load event work smh
-            if (Configs.FeatureConfigs.AUTO_PERF_OFF.getBooleanValue() && player.hasPermissionLevel(2)) {
-                WorldEditSync.turnOffPerf();
             }
         });
     }
