@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 public class TMCUtilsMod implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("tmc-utils");
     public static final String MOD_ID = "tmc-utils";
-    public static final String MOD_VERSION = "0.1.0";
+    public static final String MOD_VERSION = "0.1.1";
     public static final String MOD_NAME = "TMC Utils";
 
     public static boolean isIsoRenderInstalled() {
