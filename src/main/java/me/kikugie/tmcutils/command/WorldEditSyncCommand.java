@@ -19,7 +19,7 @@ public class WorldEditSyncCommand {
     }
 
     private static int syncWorldEditToLitematica(CommandContext<FabricClientCommandSource> context) {
-        var box = WorldEditSync.getActiveSelection();
+        var box = WorldEditSync.getValidActiveSelection();
         if (box == null) {
             context.getSource().sendError(Text.of("Invalid selection!"));
             return 0;

@@ -5,9 +5,11 @@ import me.kikugie.tmcutils.TMCUtilsMod;
 import me.kikugie.tmcutils.config.Configs;
 import me.kikugie.tmcutils.networking.WorldEditNetworkHandler;
 import me.kikugie.tmcutils.util.ResponseMuffler;
+import me.kikugie.tmcutils.util.WorldEditStorage;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.Box;
 
 import javax.annotation.Nullable;
@@ -19,25 +21,29 @@ public class WorldEditSync {
     private static boolean perfOff = false;
 
     private static void syncSelection() {
-        // TODO: Don't sync if selection is not cuboid
         if (resetCounter > 0) {
             resetCounter--;
         }
-        var box = getActiveSelection();
+        var box = getValidActiveSelection();
         if (box == null) {
             return;
         }
         var mathBox = new Box(box.getPos1(), box.getPos2());
-
         if (!mathBox.equals(lastBox)) {
             lastBox = mathBox;
             resetCounter = Configs.FeatureConfigs.AUTO_WE_SYNC_TICKS.getIntegerValue();
             return;
         }
-        if (resetCounter == 0) {
+        if (resetCounter != 0) {
+            return;
+        }
+        resetCounter = -1;
+        if (WorldEditStorage.mode.equals("cuboid")) {
             updateRegion(box);
-            resetCounter = -1;
             TMCUtilsMod.LOGGER.debug("WorldEdit synced!");
+            if (Configs.FeatureConfigs.AUTO_WE_SYNC_FEEDBACK.getBooleanValue()) {
+                player.sendMessage(Text.of("§oWorldEdit synced!"), true);
+            }
         }
     }
 
@@ -52,8 +58,8 @@ public class WorldEditSync {
     }
 
     public static void onJoinGame() {
-        player = MinecraftClient.getInstance().player;
         WorldEditNetworkHandler.registerReceiver();
+        player = MinecraftClient.getInstance().player;
         perfOff = false;
     }
 
@@ -79,7 +85,7 @@ public class WorldEditSync {
     }
 
     @Nullable
-    public static fi.dy.masa.litematica.selection.Box getActiveSelection() {
+    public static fi.dy.masa.litematica.selection.Box getValidActiveSelection() {
         var selection = DataManager.getSelectionManager().getCurrentSelection();
         if (selection == null) {
             return null;
