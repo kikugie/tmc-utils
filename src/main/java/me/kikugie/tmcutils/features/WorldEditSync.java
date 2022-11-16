@@ -11,8 +11,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.Box;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class WorldEditSync {
     private static Box lastBox = null;
@@ -53,7 +52,7 @@ public class WorldEditSync {
         }
         perfOff = true;
         ResponseMuffler.scheduleMute("Side effect \"Neighbors\".+");
-        player.sendCommand("/perf neighbors off");
+        player.sendChatMessage("//perf neighbors off");
         TMCUtilsMod.LOGGER.debug("Turning off perf");
     }
 
@@ -73,12 +72,12 @@ public class WorldEditSync {
 
     public static void updateRegion(fi.dy.masa.litematica.selection.Box box) {
         ResponseMuffler.scheduleMute("(\\w+ position set to \\(.+\\).)|(Position already set.)");
-        player.sendCommand(String.format("/pos1 %d,%d,%d",
+        player.sendChatMessage(String.format("//pos1 %d,%d,%d",
                 box.getPos1().getX(),
                 box.getPos1().getY(),
                 box.getPos1().getZ()));
         ResponseMuffler.scheduleMute("(\\w+ position set to \\(.+\\).)|(Position already set.)");
-        player.sendCommand(String.format("/pos2 %d,%d,%d",
+        player.sendChatMessage(String.format("//pos2 %d,%d,%d",
                 box.getPos2().getX(),
                 box.getPos2().getY(),
                 box.getPos2().getZ()));

@@ -1,18 +1,17 @@
 package me.kikugie.tmcutils.command;
 
-import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import me.kikugie.tmcutils.features.WorldEditSync;
 import me.kikugie.tmcutils.networking.WorldEditNetworkHandler;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
-import net.minecraft.command.CommandRegistryAccess;
+import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 import net.minecraft.text.Text;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.literal;
 
 public class WorldEditSyncCommand {
-    public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess ignoredAccess) {
-        dispatcher.register(literal("wesync")
+    public static void register() {
+        ClientCommandManager.DISPATCHER.register(literal("wesync")
                 .requires(source -> WorldEditNetworkHandler.isWorldEditConnected())
                 .requires(source -> source.getPlayer().hasPermissionLevel(2))
                 .executes(WorldEditSyncCommand::syncWorldEditToLitematica));

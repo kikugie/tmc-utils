@@ -9,8 +9,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class GiveFullBox {
     public static void giveBox() {
@@ -48,7 +47,7 @@ public class GiveFullBox {
         var nbt = new NbtCompound();
         nbt.put("BlockEntityTag", new NbtCompound());
         nbt.getCompound("BlockEntityTag").put("Items", items);
-        box.setNbt(nbt);
+        box.writeNbt(nbt);
 
         return box;
     }

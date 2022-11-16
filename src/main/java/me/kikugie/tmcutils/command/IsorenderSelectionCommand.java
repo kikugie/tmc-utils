@@ -1,20 +1,19 @@
 package me.kikugie.tmcutils.command;
 
-import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import fi.dy.masa.litematica.data.DataManager;
-import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
 import net.fabricmc.fabric.impl.command.client.ClientCommandInternals;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.text.Text;
 
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.literal;
 
 public class IsorenderSelectionCommand {
-    public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher, CommandRegistryAccess ignoredAccess) {
+    public static void register() {
         if (FabricLoader.getInstance().isModLoaded("isometric-renders")) {
-            dispatcher.register(literal("isorender").then(literal("selection").executes(IsorenderSelectionCommand::renderLitematicaSelection)));
+            ClientCommandManager.DISPATCHER.register(literal("isorender").then(literal("selection").executes(IsorenderSelectionCommand::renderLitematicaSelection)));
         }
     }
 

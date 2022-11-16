@@ -6,7 +6,6 @@ import me.kikugie.tmcutils.command.WorldEditSyncCommand;
 import me.kikugie.tmcutils.features.WorldEditSync;
 import me.kikugie.tmcutils.util.ResponseMuffler;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
@@ -26,8 +25,8 @@ public class TMCUtilsMod implements ModInitializer {
     public void onInitialize() {
         InitializationHandler.getInstance().registerInitializationHandler(new InitHandler());
 
-        ClientCommandRegistrationCallback.EVENT.register(IsorenderSelectionCommand::register);
-        ClientCommandRegistrationCallback.EVENT.register(WorldEditSyncCommand::register);
+        IsorenderSelectionCommand.register();
+        WorldEditSyncCommand.register();
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> WorldEditSync.onJoinGame());
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> ResponseMuffler.clear());
