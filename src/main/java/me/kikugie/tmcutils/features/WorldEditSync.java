@@ -13,6 +13,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.Box;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 public class WorldEditSync {
     private static Box lastBox = null;
@@ -38,7 +39,7 @@ public class WorldEditSync {
             return;
         }
         resetCounter = -1;
-        if (WorldEditStorage.mode.equals("cuboid")) {
+        if (Objects.equals(WorldEditStorage.mode, "cuboid")) {
             updateRegion(box);
             TMCUtilsMod.LOGGER.debug("WorldEdit synced!");
             if (Configs.FeatureConfigs.AUTO_WE_SYNC_FEEDBACK.getBooleanValue()) {
