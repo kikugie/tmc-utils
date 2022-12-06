@@ -11,6 +11,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
 import org.jetbrains.annotations.Nullable;
 
+import static me.kikugie.tmcutils.TMCUtilsMod.LOGGER;
+
 public class GiveFullBox {
     public static void giveBox() {
         var player = MinecraftClient.getInstance().player;
@@ -47,7 +49,7 @@ public class GiveFullBox {
         var nbt = new NbtCompound();
         nbt.put("BlockEntityTag", new NbtCompound());
         nbt.getCompound("BlockEntityTag").put("Items", items);
-        box.writeNbt(nbt);
+        box.setTag(nbt);
 
         return box;
     }
