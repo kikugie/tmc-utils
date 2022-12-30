@@ -4,7 +4,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import me.kikugie.tmcutils.TMCUtilsMod;
 import me.kikugie.tmcutils.features.WorldEditSync;
-import me.kikugie.tmcutils.util.WorldEditStorage;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;

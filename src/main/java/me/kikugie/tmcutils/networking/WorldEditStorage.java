@@ -1,4 +1,4 @@
-package me.kikugie.tmcutils.util;
+package me.kikugie.tmcutils.networking;
 
 import net.minecraft.util.math.BlockPos;
 

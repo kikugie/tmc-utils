@@ -21,7 +21,8 @@ public class ConfigHandler implements IConfigHandler {
             if (element != null && element.isJsonObject()) {
                 JsonObject root = element.getAsJsonObject();
 
-                ConfigUtils.readConfigBase(root, "features", Configs.FEATURE_CONFIGS.get());
+                ConfigUtils.readConfigBase(root, "misc", Configs.MISC_CONFIGS.get());
+                ConfigUtils.readConfigBase(root, "worldedit", Configs.WORLD_EDIT_CONFIGS.get());
             }
         }
     }
@@ -32,7 +33,8 @@ public class ConfigHandler implements IConfigHandler {
         if ((dir.exists() && dir.isDirectory()) || dir.mkdirs()) {
             JsonObject root = new JsonObject();
 
-            ConfigUtils.writeConfigBase(root, "features", Configs.FEATURE_CONFIGS.get());
+            ConfigUtils.writeConfigBase(root, "misc", Configs.MISC_CONFIGS.get());
+            ConfigUtils.writeConfigBase(root, "worldedit", Configs.WORLD_EDIT_CONFIGS.get());
 
             JsonUtils.writeJsonToFile(root, new File(dir, CONFIG_FILE_NAME));
         }

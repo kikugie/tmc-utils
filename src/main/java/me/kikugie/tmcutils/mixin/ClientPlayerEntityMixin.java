@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ClientPlayerEntityMixin {
     @Inject(method = "setClientPermissionLevel", at = @At("RETURN"))
     private void turnOffPerf(int permissionLevel, CallbackInfo ci) {
-        if (permissionLevel >= 0 && Configs.FeatureConfigs.AUTO_PERF_OFF.getBooleanValue() && WorldEditNetworkHandler.isWorldEditConnected()) {
+        if (permissionLevel >= 0 && Configs.WorldEditConfigs.AUTO_PERF_OFF.getBooleanValue() && WorldEditNetworkHandler.isWorldEditConnected()) {
             WorldEditSync.turnOffPerf();
         }
     }

@@ -17,13 +17,16 @@ public class InputHandler implements IKeybindProvider, IKeyboardInputHandler, IM
 
     @Override
     public void addKeysToMap(IKeybindManager manager) {
-        for (IKeybind keybind : Configs.FEATURE_CONFIGS.getKeybinds()) {
+        for (IKeybind keybind : Configs.MISC_CONFIGS.getKeybinds()) {
+            manager.addKeybindToMap(keybind);
+        }
+        for (IKeybind keybind : Configs.WORLD_EDIT_CONFIGS.getKeybinds()) {
             manager.addKeybindToMap(keybind);
         }
     }
 
     @Override
     public void addHotkeys(IKeybindManager manager) {
-        manager.addHotkeysForCategory(TMCUtilsMod.MOD_NAME, "tmc-utils.hotkeys.category", Configs.FEATURE_CONFIGS.getHotkeys());
+        manager.addHotkeysForCategory(TMCUtilsMod.MOD_NAME, "tmc-utils.hotkeys.category", Configs.MISC_CONFIGS.getHotkeys());
     }
 }

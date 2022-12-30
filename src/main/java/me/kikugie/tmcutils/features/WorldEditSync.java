@@ -5,7 +5,7 @@ import me.kikugie.tmcutils.TMCUtilsMod;
 import me.kikugie.tmcutils.config.Configs;
 import me.kikugie.tmcutils.networking.WorldEditNetworkHandler;
 import me.kikugie.tmcutils.util.ResponseMuffler;
-import me.kikugie.tmcutils.util.WorldEditStorage;
+import me.kikugie.tmcutils.networking.WorldEditStorage;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -32,7 +32,7 @@ public class WorldEditSync {
         var mathBox = new Box(box.getPos1(), box.getPos2());
         if (!mathBox.equals(lastBox)) {
             lastBox = mathBox;
-            resetCounter = Configs.FeatureConfigs.AUTO_WE_SYNC_TICKS.getIntegerValue();
+            resetCounter = Configs.WorldEditConfigs.AUTO_WE_SYNC_TICKS.getIntegerValue();
             return;
         }
         if (resetCounter != 0) {
@@ -42,7 +42,7 @@ public class WorldEditSync {
         if (Objects.equals(WorldEditStorage.mode, "cuboid")) {
             updateRegion(box);
             TMCUtilsMod.LOGGER.debug("WorldEdit synced!");
-            if (Configs.FeatureConfigs.AUTO_WE_SYNC_FEEDBACK.getBooleanValue()) {
+            if (Configs.WorldEditConfigs.AUTO_WE_SYNC_FEEDBACK.getBooleanValue()) {
                 player.sendMessage(Text.of("§oWorldEdit synced!"), true);
             }
         }
@@ -66,7 +66,7 @@ public class WorldEditSync {
 
     public static void onWorldEditConnected() {
         ClientTickEvents.START_WORLD_TICK.register(tick -> {
-            if (Configs.FeatureConfigs.AUTO_WE_SYNC.getBooleanValue() && player.hasPermissionLevel(2)) {
+            if (Configs.WorldEditConfigs.AUTO_WE_SYNC.getBooleanValue() && player.hasPermissionLevel(2)) {
                 WorldEditSync.syncSelection();
             }
         });

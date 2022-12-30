@@ -76,7 +76,7 @@ public class ConfigGui extends GuiConfigsBase {
         GuiTabs tab = ConfigGui.tab;
 
         if (tab == GuiTabs.FEATURES) {
-            configs = Configs.FEATURE_CONFIGS.get();
+            configs = Configs.MISC_CONFIGS.get();
         } else {
             return Collections.emptyList();
         }

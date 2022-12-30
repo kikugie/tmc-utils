@@ -24,7 +24,7 @@ public class GiveFullBox {
             player.sendMessage(Text.of("§cInvalid item!"), true);
             return;
         }
-        var box = composeBox(item.getItem(), DyeColor.byName(Configs.FeatureConfigs.BOX_COLOR.getStringValue(), null));
+        var box = composeBox(item.getItem(), DyeColor.byName(Configs.MiscConfigs.BOX_COLOR.getStringValue(), null));
         MinecraftClient.getInstance().interactionManager.clickCreativeStack(box, 36 + player.getInventory().selectedSlot);
     }
 
